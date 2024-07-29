@@ -60,3 +60,14 @@ Spring WebFlux: Provides first-class support for WebSockets, allowing for reacti
 15. Configuration
 Spring MVC: Configuration is typically done via XML or Java-based configuration classes.
 Spring WebFlux: Configuration can be more programmatic, especially when using functional routing.
+
+| Feature                     | JDBC                                   | R2DBC                                   |
+|-----------------------------|----------------------------------------|-----------------------------------------|
+| **I/O Model**               | Blocking, synchronous                  | Non-blocking, asynchronous              |
+| **Connection Management**    | Uses connection pooling libraries like HikariCP | Supports reactive connection pooling with `r2dbc-pool` |
+| **Thread Management**        | Dedicated threads for each request, can lead to thread exhaustion | Uses fewer threads, handles requests reactively |
+| **Repository Support**       | Requires manual implementation of repository interfaces | Spring Data R2DBC provides reactive repository support out-of-the-box |
+| **Query Definition**         | Uses `@Query` annotation for custom queries | Supports `@Query` annotated methods for custom queries |
+| **Reactive Types**           | Returns standard Java types            | Returns reactive types like `Mono` and `Flux` |
+| **Configuration**            | Requires explicit configuration for connection pooling | Easier configuration with reactive support |
+| **Performance**              | Can lead to bottlenecks under high load | Better scalability and resource utilization |
