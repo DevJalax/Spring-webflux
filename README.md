@@ -61,6 +61,15 @@ Spring WebFlux: Provides first-class support for WebSockets, allowing for reacti
 Spring MVC: Configuration is typically done via XML or Java-based configuration classes.
 Spring WebFlux: Configuration can be more programmatic, especially when using functional routing.
 
+# Note
+
+1) Flexibility: By changing the spring.r2dbc.url, username, and password properties, you can connect to various databases without changing your application code.
+
+2) Driver Dependency: Make sure to include the appropriate R2DBC driver dependency in your pom.xml or build.gradle file for the database you are using.
+
+3) Database-Specific Configuration: Some databases may require additional configuration properties, so be sure to consult the specific documentation for the R2DBC driver you are using.
+
+
 | Feature                     | JDBC                                   | R2DBC                                   |
 |-----------------------------|----------------------------------------|-----------------------------------------|
 | **I/O Model**               | Blocking, synchronous                  | Non-blocking, asynchronous              |
