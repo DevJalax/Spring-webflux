@@ -1,0 +1,91 @@
+I) Flux methods :
+
+1) Flux<T> flux = Flux.just(item1, item2, item3);
+
+2) Flux<T> flux = Flux.fromIterable(iterable);
+
+3) Flux<Integer> flux = Flux.range(start, count);
+
+4) Flux<Long> flux = Flux.interval(Duration.ofSeconds(1));
+
+5) Flux<R> transformedFlux = flux.map(item -> transformFunction(item));
+
+6) Flux<R> flattenedFlux = flux.flatMap(item -> reactivePublisherFunction(item));
+
+7) Flux<T> filteredFlux = flux.filter(item -> condition(item));
+
+8) Flux<T> mergedFlux = flux.mergeWith(otherFlux);
+
+9) Flux<T> concatenatedFlux = flux.concatWith(otherFlux);
+
+10) Flux<Tuple2<T, U>> zippedFlux = flux.zip(otherFlux);
+
+11) Flux<T> fallbackFlux = flux.onErrorReturn(fallbackValue);
+
+12) Flux<T> resumedFlux = flux.onErrorResume(throwable -> fallbackPublisherFunction(throwable));
+
+13) flux.subscribe();
+
+14) flux.subscribe(item -> handleItem(item));
+
+15) flux.subscribe(item -> handleItem(item), throwable -> handleError(throwable));
+
+16) Mono<List<T>> listMono = flux.collectList();
+
+17) T firstItem = flux.blockFirst();
+
+18) Mono<Long> countMono = flux.count();
+
+19) Flux<T> limitedFlux = flux.limitRate(limit);
+
+20) Flux<T> delayedFlux = flux.delayElements(Duration.ofSeconds(1));
+
+21) flux.doOnNext(item -> sideEffectFunction(item));
+
+
+
+II) Methods in Mono :
+
+1) Mono<T> mono = Mono.just(item);
+
+2) Mono<T> mono = Mono.empty();
+
+3) Mono<T> mono = Mono.fromCallable(() -> {
+    // Some blocking operation
+    return result;
+});
+
+4) Mono<T> mono = Mono.fromSupplier(() -> {
+    // Some operation to get the value
+    return value;
+});
+
+5) Mono<R> transformedMono = mono.map(item -> transformFunction(item));
+
+6) Mono<R> flattenedMono = mono.flatMap(item -> reactivePublisherFunction(item));
+
+7) Mono<T> filteredMono = mono.filter(item -> condition(item));
+
+8) Mono<Tuple2<T, U>> zippedMono = Mono.zip(mono1, mono2);
+
+9) Mono<T> concatenatedMono = mono.concatWith(otherMono);
+
+10) Mono<T> fallbackMono = mono.onErrorReturn(fallbackValue);
+
+11) Mono<T> resumedMono = mono.onErrorResume(throwable -> fallbackMono);
+
+12) mono.subscribe();
+
+13) mono.subscribe(item -> handleItem(item));
+
+14) mono.subscribe(item -> handleItem(item), throwable -> handleError(throwable));
+
+15) T result = mono.block();
+
+16) Optional<T> optionalResult = mono.blockOptional();
+
+17) mono.doOnNext(item -> sideEffectFunction(item));
+
+18) Mono<T> delayedMono = mono.delayElement(Duration.ofSeconds(1));
+
+19) Mono<T> switchedMono = mono.switchIfEmpty(Mono.just(defaultValue));
