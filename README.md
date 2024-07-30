@@ -69,6 +69,8 @@ Spring WebFlux: Configuration can be more programmatic, especially when using fu
 
 3) Database-Specific Configuration: Some databases may require additional configuration properties, so be sure to consult the specific documentation for the R2DBC driver you are using.
 
+4) Streams = record of data either one record [Mono] or list of records [Flux] 
+
 
 # Producer - Consumer model of Spring Webflux
 
