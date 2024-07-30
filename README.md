@@ -70,6 +70,66 @@ Spring WebFlux: Configuration can be more programmatic, especially when using fu
 3) Database-Specific Configuration: Some databases may require additional configuration properties, so be sure to consult the specific documentation for the R2DBC driver you are using.
 
 
+# Producer - Consumer model of Spring Webflux
+
+Spring webflux components :
+
+RxJava , Ratpack , project reactor , akka streams , Vert.x
+
+publisher(mono/flux) - subscribe model[only after subscribe() method is called resultant stream is added to arraylist] 
+
+We don’t need to call subscribe methods in the Controller as the internal classes of Spring would call it for us at the right time.
+
+Publisher (source of data) : 
+
+It is responsible for preparing and transferring data to subscribers as individual messages. A Publisher can serve multiple subscribers but it has only one method, subscribe().
+
+public interface Publisher<T> {
+    public void subscribe(Subscriber<? super T> s);
+}
+
+Subscriber :
+
+A Subscriber is responsible for receiving messages from a Publisher and processing those messages. It acts as a terminal operation in the Streams API. It has four methods to deal with the events received:
+
+1) onSubscribe(Subscription s): Gets called automatically when a publisher registers itself and allows the subscription to request data.
+
+2) onNext(T t): Gets called on the subscriber every time it is ready to receive a new message of generic type T.
+
+3) onError(Throwable t): Is used to handle the next steps whenever an error is monitored.
+
+4) onComplete(): Allows to perform operations in case of successful subscription of data.
+
+
+Subscription: It represents a relationship between the subscriber and publisher. It can be used only once by a single Subscriber. It has methods that allow requesting for data and to cancel the demand.
+
+public interface Subscription {
+    public void request(long n);
+    public void cancel();
+}
+
+Processor: It represents a processing stage that consists of both Publisher and Subscriber.
+
+public interface Processor<T, R> extends Subscriber<T>, Publisher<R> {
+}
+
+
+How Data is Published ?
+
+1) Starting the Connection: The subscriber (the one who wants to receive data) calls the subscribe() method on the publisher (the one who has the data). This creates a connection between them.
+
+2) Getting Ready to Receive Data: After the connection is made, the publisher tells the subscriber that they are now connected by calling the onSubscribe() method. This gives the subscriber a subscription object that allows it to request data.
+
+3) Requesting Data: The subscriber uses the subscription to ask for a specific number of data items by calling the request(long n) method. This tells the publisher how much data the subscriber can handle at once.
+
+4) Sending Data: Once the publisher gets the request, it starts sending the requested data items to the subscriber using the onNext() method. This happens for each item sent.
+
+5)Finishing Up: After all the requested data has been sent, the publisher calls the onComplete() method to let the subscriber know that there are no more items to send. If something goes wrong while sending data, the publisher calls onError() to inform the subscriber about the issue.
+
+
+
+# Difference between JDBC and R2DBC
+
 | Feature                     | JDBC                                   | R2DBC                                   |
 |-----------------------------|----------------------------------------|-----------------------------------------|
 | **I/O Model**               | Blocking, synchronous                  | Non-blocking, asynchronous              |
